@@ -33,6 +33,31 @@ import UIKit
 
 class Solution {
     func maxOperations(_ nums: [Int], _ k: Int) -> Int {
+        var result = 0
+        var dict: [Int: Int] = [:]
+            
+        nums.forEach { num in
+            if let saved = dict[num] {
+                dict[num]! += 1
+            } else {
+                dict[num] = 1
+            }
+        }
         
+        for (key, value) in dict {
+            let diff = k - key
+            if let savedDiffValue = dict[diff] {
+                result += min(value, dict[diff]!)
+                
+            }
+        }
+            
+        return result / 2
     }
 }
+
+let solution = Solution()
+print(solution.maxOperations([1,2,3,4], 5)) // 2
+print(solution.maxOperations([3,1,3,4,3], 6)) // 1
+print(solution.maxOperations([4,4,1,3,1,3,2,2,5,5,1,5,2,1,2,3,5,4], 2)) // 2
+print(solution.maxOperations([2,2,2,3,1,1,4,1], 4)) // 2
