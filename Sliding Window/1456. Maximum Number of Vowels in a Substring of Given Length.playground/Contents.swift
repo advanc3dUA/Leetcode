@@ -33,11 +33,9 @@ class Solution {
     func maxVowels(_ s: String, _ k: Int) -> Int {
         let vowels: Set<Character> = ["a", "e", "i", "o", "u"]
         let chars = Array(s)
-        var maxVowelsCount = 0
-        for index in 0..<k {
-            if vowels.contains(chars[index]) {
-                maxVowelsCount += 1
-            }
+        
+        var maxVowelsCount = chars[0..<k].reduce(0) { count, char in
+            count + (vowels.contains(char) ? 1 : 0)
         }
         var currentMaxVowelsCount = maxVowelsCount
     
