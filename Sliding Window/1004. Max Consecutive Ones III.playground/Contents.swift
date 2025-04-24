@@ -26,6 +26,29 @@ import UIKit
 
 class Solution {
     func longestOnes(_ nums: [Int], _ k: Int) -> Int {
+        var left = 0, zeroCount = 0, maxLength = 0
         
+        for right in 0..<nums.count {
+            if nums[right] == 0 {
+                zeroCount += 1
+            }
+            
+            while zeroCount > k {
+                if nums[left] == 0 {
+                    zeroCount -= 1
+                }
+                left += 1
+            }
+            maxLength = max(maxLength, right - left + 1)
+        }
+        
+        return maxLength
     }
 }
+
+let solution = Solution()
+print(solution.longestOnes([1,1,1,0,0,0,1,1,1,1,0], 2)) // 6
+print(solution.longestOnes([0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], 3)) // 10
+print(solution.longestOnes([0,0,1,1,1,0,0], 0)) // 3
+print(solution.longestOnes([0,0,1,1], 1)) // 3
+print(solution.longestOnes([1,1,1,0,0,0,1,1,1,1], 0)) // 4
