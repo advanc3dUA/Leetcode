@@ -26,6 +26,17 @@ import UIKit
 
 class Solution {
     func largestAltitude(_ gain: [Int]) -> Int {
+        var currentAltitude = 0
+        var maxAltitude = 0
         
+        gain.forEach { value in
+            currentAltitude += value
+            maxAltitude = max(maxAltitude, currentAltitude)
+        }
+        return maxAltitude
     }
 }
+
+let solution = Solution()
+print(solution.largestAltitude([-5,1,5,0,-7]))
+print(solution.largestAltitude([-4,-3,-2,-1,4,3,2]))
