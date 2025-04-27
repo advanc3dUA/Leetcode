@@ -39,8 +39,48 @@ import UIKit
 //1 <= nums.length <= 104
 //-1000 <= nums[i] <= 1000
 
+//class Solution {
+//    func pivotIndex(_ nums: [Int]) -> Int {
+//        var leftSumArray = [Int]()
+//        var rightSumArray = [Int]()
+//        
+//        var leftSum = 0
+//        var rightSum = 0
+//        
+//        for i in 0..<nums.count {
+//            leftSumArray.append(leftSum)
+//            rightSumArray.insert(rightSum, at: 0)
+//            
+//            leftSum += nums[i]
+//            rightSum += nums[nums.count - i - 1]
+//        }
+//        
+//        for i in 0..<leftSumArray.count {
+//            if leftSumArray[i] == rightSumArray[i] {
+//                return i
+//            }
+//        }
+//        return -1
+//    }
+//}
+
 class Solution {
     func pivotIndex(_ nums: [Int]) -> Int {
+        let totalSum = nums.reduce(0, +)
+        var leftSum = 0
         
+        for (index, value) in nums.enumerated() {
+            if leftSum == totalSum - leftSum - value {
+                return index
+            }
+            leftSum += value
+        }
+        return -1
     }
 }
+
+let solution = Solution()
+print(solution.pivotIndex([1,7,3,6,5,6]))
+print(solution.pivotIndex([1,2,3]))
+print(solution.pivotIndex([2,1,-1]))
+print(solution.pivotIndex([-1,-1,-1,-1,-1,0]))
