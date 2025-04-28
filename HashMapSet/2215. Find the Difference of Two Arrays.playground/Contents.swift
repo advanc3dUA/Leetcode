@@ -31,6 +31,15 @@ import UIKit
 
 class Solution {
     func findDifference(_ nums1: [Int], _ nums2: [Int]) -> [[Int]] {
+        let num1Set = Set(nums1)
+        let num2Set = Set(nums2)
         
+        let diff1 = Array(num1Set.subtracting(num2Set))
+        let diff2 = Array(num2Set.subtracting(num1Set))
+        
+        return [diff1, diff2]
     }
 }
+
+let solution = Solution()
+print(solution.findDifference([1,2,3], [2,4,6]))
