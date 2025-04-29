@@ -26,6 +26,15 @@ import UIKit
 
 class Solution {
     func uniqueOccurrences(_ arr: [Int]) -> Bool {
+        var lengthDict: [Int: Int] = [:]
         
+        for num in arr {
+            lengthDict[num, default: 0] += 1
+        }
+        let lengthSet = Set(lengthDict.values)
+        return lengthDict.count == lengthSet.count
     }
 }
+
+let solution = Solution()
+print(solution.uniqueOccurrences([1,2,2,1,1,3]))
