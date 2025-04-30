@@ -41,6 +41,26 @@ import UIKit
 
 class Solution {
     func closeStrings(_ word1: String, _ word2: String) -> Bool {
+        guard word1.count == word2.count else { return false }
+        var word1Freq: [Character: Int] = [:]
+        var word2Freq: [Character: Int] = [:]
         
+        for char in word1 {
+            word1Freq[char, default: 0] += 1
+        }
+        
+        for char in word2 {
+            word2Freq[char, default: 0] += 1
+        }
+        
+        guard Set(word1Freq.keys) == Set(word2Freq.keys) else { return false }
+        
+        return word1Freq.values.sorted() == word2Freq.values.sorted()
     }
 }
+
+let solution = Solution()
+print(solution.closeStrings("abc", "bca"))
+print(solution.closeStrings("a", "aa"))
+print(solution.closeStrings("cabbba", "abbccc"))
+print(solution.closeStrings("uau", "ssx"))
