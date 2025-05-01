@@ -30,8 +30,54 @@ import UIKit
 //1 <= n <= 200
 //1 <= grid[i][j] <= 105
 
+//class Solution {
+//    func equalPairs(_ grid: [[Int]]) -> Int {
+//        var reversedGrid: [[Int]] = grid
+//        
+//        for i in 0..<grid.count {
+//            for j in 0..<grid.count {
+//                reversedGrid[i][j] = grid[j][i]
+//            }
+//        }
+//        
+//        var result = 0
+//        
+//        for row in grid {
+//            for column in reversedGrid {
+//                if row == column {
+//                    result += 1
+//                }
+//            }
+//        }
+//        
+//        return result
+//    }
+//}
+
 class Solution {
     func equalPairs(_ grid: [[Int]]) -> Int {
+        let n = grid.count
+        var columnDict: [[Int]:Int] = [:]
+        var result = 0
         
+        for j in 0..<n {
+            var column = [Int]()
+            for i in 0..<n {
+                column.append(grid[i][j])
+            }
+            columnDict[column, default: 0] += 1
+        }
+
+        for row in grid {
+            if let count = columnDict[row] {
+                result += count
+            }
+        }
+        
+        return result
     }
 }
+
+let solution = Solution()
+print(solution.equalPairs([[3,2,1],[1,7,6],[2,7,7]]))
+print(solution.equalPairs([[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]))
