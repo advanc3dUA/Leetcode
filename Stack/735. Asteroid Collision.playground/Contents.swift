@@ -6,7 +6,7 @@ import UIKit
 //
 //Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
 //
-// 
+//
 //
 //Example 1:
 //
@@ -23,7 +23,7 @@ import UIKit
 //Input: asteroids = [10,2,-5]
 //Output: [10]
 //Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
-// 
+//
 //
 //Constraints:
 //
@@ -33,6 +33,32 @@ import UIKit
 
 class Solution {
     func asteroidCollision(_ asteroids: [Int]) -> [Int] {
-        
+        var stack = [Int]()
+        for asteroid in asteroids {
+            var destroyed = false
+            while let last = stack.last, last > 0, asteroid < 0 {
+                if abs(last) < abs(asteroid) {
+                    stack.removeLast()
+                } else if abs(last) == abs(asteroid) {
+                    stack.removeLast()
+                    destroyed = true
+                    break
+                } else {
+                    destroyed = true
+                    break
+                }
+            }
+            if !destroyed {
+                stack.append(asteroid)
+            }
+        }
+        return stack
     }
 }
+
+let solution = Solution()
+//print("\(solution.asteroidCollision([5,10,-5]))")
+//print("\(solution.asteroidCollision([8, -8]))")
+//print("\(solution.asteroidCollision([10,2,-5]))")
+//print(solution.asteroidCollision([-2,-1,1,2]))
+print(solution.asteroidCollision([-2,-2,-2,1]))
