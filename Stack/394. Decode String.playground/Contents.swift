@@ -33,6 +33,32 @@ import UIKit
 
 class Solution {
     func decodeString(_ s: String) -> String {
+        var stack: [(String, Int)] = []
+        var currentString = ""
+        var currentMultiplier = ""
         
+        for i in 0..<s.count {
+            let symbol = s[s.index(s.startIndex, offsetBy: i)]
+            
+            if symbol.isNumber {
+                currentMultiplier += String(symbol)
+            } else if symbol.isLetter {
+                currentString += String(symbol)
+            } else if symbol == "[" {
+                let pair: (String, Int) = (currentString, Int(currentMultiplier) ?? 1)
+                stack.append(pair)
+                currentString = ""
+                currentMultiplier = ""
+            } else if symbol == "]" {
+                let (prevString, prevMultiplier) = stack.removeLast()
+                currentString = prevString + String(repeating: currentString, count: prevMultiplier)
+            }
+        }
+        return currentString
     }
 }
+
+let solution = Solution()
+print(solution.decodeString("3[a]2[bc]"))
+print(solution.decodeString("2[abc]3[cd]ef"))
+print(solution.decodeString("3[a2[c]]"))
