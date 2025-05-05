@@ -32,14 +32,34 @@ import UIKit
 //Each test case will call ping with strictly increasing values of t.
 //At most 104 calls will be made to ping.
 
+//class RecentCounter {
+//    var queue: [Int] = []
+//
+//    init() {
+//        
+//    }
+//    
+//    func ping(_ t: Int) -> Int {
+//        let range = t - 3000...t
+//        queue = queue.filter { range.contains($0) }
+//        queue.append(t)
+//        return queue.count
+//    }
+//}
+
 class RecentCounter {
+    var queue: [Int] = []
 
     init() {
         
     }
     
     func ping(_ t: Int) -> Int {
-        
+        queue.append(t)
+        while let first = queue.first, first < t - 3000 {
+            queue.removeFirst()
+        }
+        return queue.count
     }
 }
 
@@ -48,3 +68,9 @@ class RecentCounter {
  * let obj = RecentCounter()
  * let ret_1: Int = obj.ping(t)
  */
+
+let obj = RecentCounter()
+let ret_1 = obj.ping(1)
+let ret_2 = obj.ping(100)
+let ret_3 = obj.ping(3001)
+let ret_4 = obj.ping(3002)
