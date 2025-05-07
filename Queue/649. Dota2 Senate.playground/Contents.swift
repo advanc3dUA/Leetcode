@@ -41,6 +41,31 @@ import UIKit
 
 class Solution {
     func predictPartyVictory(_ senate: String) -> String {
+        var radiantQueue = [Int]()
+        var direQueue = [Int]()
+        let array = Array(senate)
+
+        for i in 0..<array.count {
+            array[i] == "R" ? radiantQueue.append(i) : direQueue.append(i)
+        }
         
+        while !radiantQueue.isEmpty, !direQueue.isEmpty {
+            if radiantQueue.first! < direQueue.first! {
+                direQueue.removeFirst()
+                var radiant = radiantQueue.removeFirst()
+                radiant += senate.count
+                radiantQueue.append(radiant)
+            } else {
+                radiantQueue.removeFirst()
+                var dire = direQueue.removeFirst()
+                dire += senate.count
+                direQueue.append(dire)
+            }
+        }
+        return radiantQueue.isEmpty ? "Dire" : "Radiant"
     }
 }
+
+let solution = Solution()
+print(solution.predictPartyVictory("RD"))
+print(solution.predictPartyVictory("RDD"))
