@@ -40,18 +40,50 @@ import UIKit
 //The number of nodes in the list is in the range [1, 105].
 //1 <= Node.val <= 105
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public var val: Int
- *     public var next: ListNode?
- *     public init() { self.val = 0; self.next = nil; }
- *     public init(_ val: Int) { self.val = val; self.next = nil; }
- *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
- * }
- */
-class Solution {
-    func deleteMiddle(_ head: ListNode?) -> ListNode? {
-        
+public class ListNode {
+    public var val: Int
+    public var next: ListNode?
+    public init() {
+        self.val = 0
+        self.next = nil
+    }
+    public init(_ val: Int) {
+        self.val = val
+        self.next = nil
+    }
+    public init(_ val: Int, _ next: ListNode?) {
+        self.val = val
+        self.next = next
     }
 }
+class Solution {
+    func deleteMiddle(_ head: ListNode?) -> ListNode? {
+        var nodesCount = 0
+        var nextNode = head
+        
+        while nextNode != nil {
+            nodesCount += 1
+            nextNode = nextNode?.next
+        }
+        
+        guard nodesCount != 1 else {
+            return nil
+        }
+        
+        let nodeToDeleteIndex = nodesCount / 2
+        var currentNode = head
+
+        for _ in 0..<nodeToDeleteIndex - 1 {
+            currentNode = currentNode?.next
+        }
+        
+        currentNode?.next = currentNode?.next?.next
+        
+        return head
+    }
+}
+
+let solution = Solution()
+print(solution.deleteMiddle(ListNode(1, ListNode(3, ListNode(4, ListNode(7, ListNode(1, ListNode(2, ListNode(6))))))))!)
+print(solution.deleteMiddle(ListNode(1)))
+print(solution.deleteMiddle(ListNode(1, ListNode(2, ListNode(3, ListNode(4))))))
