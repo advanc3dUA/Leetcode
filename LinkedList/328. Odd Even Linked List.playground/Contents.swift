@@ -27,18 +27,58 @@ import UIKit
 //The number of nodes in the linked list is in the range [0, 104].
 //-106 <= Node.val <= 106
 
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public var val: Int
- *     public var next: ListNode?
- *     public init() { self.val = 0; self.next = nil; }
- *     public init(_ val: Int) { self.val = val; self.next = nil; }
- *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
- * }
- */
+public class ListNode {
+    public var val: Int
+    public var next: ListNode?
+    public init() { self.val = 0; self.next = nil; }
+    public init(_ val: Int) { self.val = val; self.next = nil; }
+    public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+}
+
 class Solution {
     func oddEvenList(_ head: ListNode?) -> ListNode? {
+        guard let head = head else { return nil }
         
+        var count = 0
+        var current: ListNode? = head
+        var oddTail: ListNode?
+        var evenTail: ListNode?
+        var evenHead: ListNode?
+        var oddHead: ListNode?
+        
+        while current != nil {
+            if count % 2 == 0 {
+                if evenHead == nil {
+                    evenHead = current
+                    evenTail = evenHead
+                } else {
+                    evenTail?.next = current
+                    evenTail = current
+                }
+            } else {
+                if oddHead == nil {
+                    oddHead = current
+                    oddTail = oddHead
+                } else {
+                    oddTail?.next = current
+                    oddTail = current
+                }
+            }
+            
+            current = current?.next
+            count += 1
+        }
+        
+        evenTail?.next = oddHead
+        oddTail?.next = nil
+        return evenHead
     }
 }
+
+let solution = Solution()
+let head: ListNode? = ListNode(10, ListNode(11, ListNode(12, ListNode(13, ListNode(14, ListNode(15))))))
+let result = solution.oddEvenList(head)
+print("result: \(String(describing: result))")
+
+
+
