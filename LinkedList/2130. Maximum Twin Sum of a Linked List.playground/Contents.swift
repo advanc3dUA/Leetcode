@@ -61,6 +61,31 @@ public class ListNode {
 
 class Solution {
     func pairSum(_ head: ListNode?) -> Int {
+        var weights: [Int] = []
+        var current = head
         
+        while current != nil {
+            if let value = current?.val {
+                weights.append(value)
+            }
+            current = current?.next
+        }
+        
+        var maxSum = 0
+        
+        for i in 0..<weights.count / 2 {
+            let currentSum = weights[i] + weights[weights.count - i - 1]
+            if currentSum > maxSum {
+                maxSum = currentSum
+            }
+        }
+        
+        return maxSum
     }
 }
+
+let solution = Solution()
+print(solution.pairSum(ListNode(1, ListNode(3, ListNode(4, ListNode(7, ListNode(1, ListNode(2))))))))
+print(solution.pairSum(ListNode(1, ListNode(1000))))
+print(solution.pairSum(ListNode(1, ListNode(2, ListNode(3, ListNode(4))))))
+
