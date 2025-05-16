@@ -4,7 +4,7 @@ import UIKit
 //
 //A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
 //
-// 
+//
 //
 //Example 1:
 //
@@ -15,7 +15,7 @@ import UIKit
 //
 //Input: root = [1,null,2]
 //Output: 2
-// 
+//
 //
 //Constraints:
 //
@@ -43,8 +43,43 @@ public class TreeNode {
         self.right = right
     }
 }
+//class Solution {
+//    func maxDepth(_ root: TreeNode?) -> Int {
+//        guard let root = root else {
+//            return 0
+//        }
+//
+//        let left = maxDepth(root.left)
+//        let right = maxDepth(root.right)
+//
+//        return 1 + max(left, right)
+//    }
+//}
+
 class Solution {
     func maxDepth(_ root: TreeNode?) -> Int {
+        guard let root = root else {
+            return 0
+        }
         
+        var stack: [(TreeNode, Int)] = [(root, 1)]
+        var maxDepth = 0
+        
+        while !stack.isEmpty {
+            let (node, depth) = stack.removeLast()
+            maxDepth = max(maxDepth, depth)
+            
+            if let left = node.left {
+                stack.append((left, depth + 1))
+            }
+            if let right = node.right {
+                stack.append((right, depth + 1))
+            }
+        }
+        
+        return maxDepth
     }
 }
+
+let solution = Solution()
+print(solution.maxDepth(TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))))
