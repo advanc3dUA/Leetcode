@@ -53,6 +53,26 @@ public class TreeNode {
 
 class Solution {
     func leafSimilar(_ root1: TreeNode?, _ root2: TreeNode?) -> Bool {
+        let list1 = dfs(root1)
+        let list2 = dfs(root2)
         
+        return list1 == list2
+    }
+    
+    func dfs(_ node: TreeNode?) -> [Int] {
+        guard let node = node else {
+            return []
+        }
+        
+        if node.left == nil && node.right == nil {
+            return [node.val]
+        }
+        
+        return dfs(node.left) + dfs(node.right)
     }
 }
+
+let solution = Solution()
+print(solution.dfs(TreeNode(3, TreeNode(5, TreeNode(6), TreeNode(2, TreeNode(7), TreeNode(4))), TreeNode(1, TreeNode(9), TreeNode(8)))))
+
+print(solution.leafSimilar(TreeNode(3, TreeNode(5, TreeNode(6), TreeNode(2, TreeNode(7), TreeNode(4))), TreeNode(1, TreeNode(9), TreeNode(8))), TreeNode(3, TreeNode(5, TreeNode(6), TreeNode(2, TreeNode(7), TreeNode(4))), TreeNode(1, TreeNode(9), TreeNode(8)))))
