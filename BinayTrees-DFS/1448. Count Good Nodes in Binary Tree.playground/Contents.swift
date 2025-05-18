@@ -60,6 +60,25 @@ public class TreeNode {
 
 class Solution {
     func goodNodes(_ root: TreeNode?) -> Int {
+        return dfs(root)
+    }
+    
+    func dfs(_ node: TreeNode?, _ currentMax: Int = Int.min) -> Int {
+        guard let node = node else {
+            return 0
+        }
         
+//        if node.val >= currentMax {
+//            return 1 + dfs(node.left, node.val) + dfs(node.right, node.val)
+//        } else {
+//            return dfs(node.left, currentMax) + dfs(node.right, currentMax)
+//        }
+        let isGood = node.val >= currentMax ? 1 : 0
+        let newMax = max(currentMax, node.val)
+        
+        return isGood + dfs(node.left, newMax) + dfs(node.right, newMax)
     }
 }
+
+let solution = Solution()
+print(solution.dfs(TreeNode(3, TreeNode(1, TreeNode(3), TreeNode()), TreeNode(4, TreeNode(1), TreeNode(5)))))
