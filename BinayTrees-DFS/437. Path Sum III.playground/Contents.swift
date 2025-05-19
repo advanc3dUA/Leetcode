@@ -48,6 +48,25 @@ public class TreeNode {
 
 class Solution {
     func pathSum(_ root: TreeNode?, _ targetSum: Int) -> Int {
+        guard let node = root else {
+            return 0
+        }
+        return countFrom(root, targetSum) + pathSum(node.left, targetSum) + pathSum(node.right, targetSum)
+    }
+    
+    func countFrom(_ node: TreeNode?, _ remaining: Int) -> Int {
+        guard let node = node else {
+            return 0
+        }
         
+        var count = 0
+        if node.val == remaining {
+            count += 1
+        }
+        
+        count += countFrom(node.left, remaining - node.val)
+        count += countFrom(node.right, remaining - node.val)
+        
+        return count
     }
 }
