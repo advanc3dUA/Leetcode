@@ -61,6 +61,27 @@ public class TreeNode {
 
 class Solution {
     func longestZigZag(_ root: TreeNode?) -> Int {
+        var maxPath = 0
         
+        _ = dfs(root, maxPath: &maxPath)
+        
+        return maxPath
+    }
+    
+    func dfs(_ root: TreeNode?, maxPath: inout Int) -> (leftPath: Int, rightPath: Int) {
+        guard let node = root else { return (leftPath: -1, rightPath: -1) }
+        let (leftLeft, leftRight) = dfs(node.left, maxPath: &maxPath)
+        let (rightLeft, rightRight) = dfs(node.right, maxPath: &maxPath)
+        
+        let leftZig = 1 + leftRight
+        let rightZig = 1 + rightLeft
+        
+        maxPath = max(maxPath, leftZig, rightZig)
+        
+        return (leftZig, rightZig)
     }
 }
+
+let solution = Solution()
+print(solution.longestZigZag(TreeNode(1, nil, TreeNode(1, TreeNode(1), TreeNode(1, TreeNode(1, nil, TreeNode(1, nil, TreeNode(1))), TreeNode(1))))))
+print(solution.longestZigZag(TreeNode(1)))
