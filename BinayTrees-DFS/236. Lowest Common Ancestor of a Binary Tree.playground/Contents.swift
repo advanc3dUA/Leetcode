@@ -56,6 +56,23 @@ public class TreeNode {
 
 class Solution {
     func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+        return dfs(root, p, q)
+    }
+    
+    func dfs(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+        guard let node = root else { return nil }
         
+        if node.val == p?.val || node.val == q?.val {
+            return node
+        }
+        
+        let left = dfs(node.left, p, q)
+        let right = dfs(node.right, p, q)
+        
+        if left != nil && right != nil {
+            return node
+        }
+        
+        return left ?? right
     }
 }
