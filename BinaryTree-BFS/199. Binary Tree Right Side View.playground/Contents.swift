@@ -67,6 +67,33 @@ public class TreeNode {
 
 class Solution {
     func rightSideView(_ root: TreeNode?) -> [Int] {
+        guard let node = root else { return [] }
         
+        var result: [Int] = []
+        var queue: [TreeNode] = [node]
+        
+        while !queue.isEmpty {
+            let levelSize = queue.count
+            var levelNodes : [Int] = []
+            
+            for _ in 0..<levelSize {
+                let node = queue.removeFirst()
+                levelNodes.append(node.val)
+                
+                
+                if let left = node.left {
+                    queue.append(left)
+                }
+                
+                if let rigght = node.right {
+                    queue.append(rigght)
+                }
+            }
+            result.append(levelNodes.last!)
+        }
+        return result
     }
 }
+
+let solution = Solution()
+print(solution.rightSideView(TreeNode(1, TreeNode(2, TreeNode(6), TreeNode(5)), TreeNode(3, nil, TreeNode(4)))))
