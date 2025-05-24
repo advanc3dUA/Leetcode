@@ -51,6 +51,36 @@ public class TreeNode {
 
 class Solution {
     func maxLevelSum(_ root: TreeNode?) -> Int {
+        guard let root = root else { return 0 }
+        var queue: [TreeNode] = [root]
+        var maxSum = Int.min
+        var maxLevel = 0
+        var currentLevel = 0
+        while !queue.isEmpty {
+            let size = queue.count
+            var sum: Int = 0
+            currentLevel += 1
+            for _ in 0..<size {
+                let node = queue.removeFirst()
+                sum += node.val
+                
+                if let left = node.left {
+                    queue.append(left)
+                }
+                
+                if let right = node.right {
+                    queue.append(right)
+                }
+            }
+            if sum > maxSum {
+                maxSum = sum
+                maxLevel = currentLevel
+            }
+        }
         
+        return maxLevel
     }
 }
+
+let solution = Solution()
+print(solution.maxLevelSum(TreeNode(1, TreeNode(7, TreeNode(7), TreeNode(-8)), TreeNode(0))))
