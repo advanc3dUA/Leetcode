@@ -48,7 +48,16 @@ public class TreeNode {
 }
 
 class Solution {
+    
     func searchBST(_ root: TreeNode?, _ val: Int) -> TreeNode? {
+        guard let node = root else { return nil }
+        if node.val == val {
+            return node
+        }
         
+        return val < node.val ? searchBST(node.left, val) : searchBST(node.right, val)
     }
 }
+
+let solution = Solution()
+print(solution.searchBST(TreeNode(4, TreeNode(3, TreeNode(1), TreeNode(2)), TreeNode(7)), 2))
