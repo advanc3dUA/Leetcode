@@ -61,6 +61,41 @@ public class TreeNode {
 
 class Solution {
     func deleteNode(_ root: TreeNode?, _ key: Int) -> TreeNode? {
+        guard let node = root else { return nil }
         
+        if key < node.val {
+            node.left = deleteNode(node.left, key)
+        } else if key > node.val {
+            node.right = deleteNode(node.right, key)
+        } else {
+            if node.left == nil && node.right == nil {
+                return nil
+            }
+            
+            if node.left == nil {
+                return node.right
+            }
+            
+            if node.right == nil {
+                return node.left
+            }
+            
+            if let minNode = findMin(node.right) {
+                node.val = minNode.val
+                node.right = deleteNode(node.right, minNode.val)
+            }
+        }
+        return root
+    }
+    
+    func findMin(_ node: TreeNode?) -> TreeNode? {
+        var current = node
+        while current?.left != nil {
+            current = current?.left
+        }
+        return current
     }
 }
+
+let solution = Solution()
+print(solution.deleteNode(TreeNode(5, TreeNode(3, TreeNode(2), TreeNode(4)), TreeNode(6, nil, TreeNode(7))), 3))
