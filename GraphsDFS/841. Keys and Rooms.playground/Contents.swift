@@ -36,6 +36,20 @@ import UIKit
 
 class Solution {
     func canVisitAllRooms(_ rooms: [[Int]]) -> Bool {
-        
+        var visited = Array(repeating: false, count: rooms.count)
+        dfs(rooms, &visited, 0)
+        return visited.allSatisfy { $0 == true }
+    }
+    
+    func dfs(_ rooms: [[Int]], _ visited: inout [Bool], _ index: Int) {
+        if visited[index] {
+            return
+        } else {
+            visited[index] = true
+            
+            for key in rooms[index] {
+                dfs(rooms, &visited, key)
+            }
+        }
     }
 }
