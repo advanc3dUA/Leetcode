@@ -33,6 +33,31 @@ import UIKit
 
 class Solution {
     func findCircleNum(_ isConnected: [[Int]]) -> Int {
+        let cityNumber = isConnected.count
+        var visited: Set<Int> = []
+        var provinceCount = 0
         
+        for i in 0..<cityNumber {
+            if !visited.contains(i) {
+                provinceCount += 1
+                dfs(for: i, isConnected , &visited)
+            }
+        }
+        
+        return provinceCount
+    }
+    
+    func dfs(for i: Int, _ isConnected: [[Int]], _ visited: inout Set<Int>) {
+        visited.insert(i)
+        for j in 0..<isConnected[i].count {
+            if isConnected[i][j] == 1 && !visited.contains(j) {
+                visited.insert(j)
+                dfs(for: j, isConnected, &visited)
+            }
+        }
     }
 }
+
+let solution = Solution()
+let isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+print(solution.findCircleNum(isConnected))
