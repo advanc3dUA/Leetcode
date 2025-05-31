@@ -31,6 +31,33 @@ import UIKit
 
 class Solution {
     func minReorder(_ n: Int, _ connections: [[Int]]) -> Int {
+        var graph = [[Int]](repeating: [], count: n)
         
+        var directedEdges = Set<String>()
+        for connection in connections {
+            let from = connection[0]
+            let to = connection[1]
+            graph[from].append(to)
+            graph[to].append(from)
+            directedEdges.insert("\(from)->\(to)")
+        }
+        
+        var count = 0
+        
+        func dfs(_ node: Int, _ parent: Int) {
+            for neighbor in graph[node] {
+                if neighbor == parent { continue }
+                if directedEdges.contains("\(node)->\(neighbor)") {
+                    count += 1
+                }
+                dfs(neighbor, node)
+            }
+        }
+        
+        dfs(0, -1)
+        return count
     }
 }
+
+let solution = Solution()
+print(solution.minReorder(6, [[0,1],[1,3],[2,3],[4,0],[4,5]]))
