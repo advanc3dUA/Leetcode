@@ -45,6 +45,55 @@ import UIKit
 
 class Solution {
     func calcEquation(_ equations: [[String]], _ values: [Double], _ queries: [[String]]) -> [Double] {
-        
+        var graph = [String: [(String, Double)]]()
+
+        for (i, equation) in equations.enumerated() {
+            let (a, b) = (equation[0], equation[1])
+            let value = values[i]
+
+            graph[a, default: []].append((b, value))
+            graph[b, default: []].append((a, 1.0 / value))
+        }
+
+        var results: [Double] = []
+
+        for query in queries {
+            let (start, end) = (query[0], query[1])
+
+            if graph[start] == nil || graph[end] == nil {
+                results.append(-1.0)
+            } else {
+                var visited = Set<String>()
+                let result = dfs(start, end, 1.0, &visited, graph)
+                results.append(result)
+            }
+        }
+
+        return results
+    }
+    
+    func dfs(
+        _ current: String,
+        _ target: String,
+        _ product: Double,
+        _ visited: inout Set<String>,
+        _ graph: [String: [(String, Double)]]
+    ) -> Double {
+        if current == target {
+            return product
+        }
+
+        visited.insert(current)
+
+        for (neighbor, value) in graph[current, default: []] {
+            if !visited.contains(neighbor) {
+                let result = dfs(neighbor, target, product * value, &visited, graph)
+                if result != -1.0 {
+                    return result
+                }
+            }
+        }
+
+        return -1.0
     }
 }
