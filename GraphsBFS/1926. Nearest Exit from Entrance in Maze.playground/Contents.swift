@@ -38,6 +38,48 @@ import UIKit
 
 class Solution {
     func nearestExit(_ maze: [[Character]], _ entrance: [Int]) -> Int {
+        var queue = [(entrance[0], entrance[1], 0)]
+        let rows = maze.count
+        let columns = maze[0].count
+        var visited = Set<[Int]>()
+        visited.insert(entrance)
         
+        let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        while !queue.isEmpty {
+            let (row, column, steps) = queue.removeFirst()
+            
+            for (dRow, dColumn) in directions {
+                let nRow = row + dRow
+                let nColumn = column + dColumn
+                
+                if nRow < 0 || nRow >= rows || nColumn < 0 || nColumn >= columns {
+                    continue
+                }
+                
+                if maze[nRow][nColumn] == "+" || visited.contains([nRow, nColumn]) {
+                    continue
+                }
+                
+                if nRow == 0 || nRow == rows - 1 || nColumn == 0 || nColumn == columns - 1 {
+                    return steps + 1
+                }
+                
+                queue.append((nRow, nColumn, steps + 1))
+                visited.insert([nRow, nColumn])
+            }
+        }
+        return -1
     }
 }
+
+let solution = Solution()
+print(solution.nearestExit(
+    [
+        ["+","+",".","+"],
+        [".",".",".","+"],
+        ["+","+","+","."]
+    ],
+    [1,2]
+    )
+)
