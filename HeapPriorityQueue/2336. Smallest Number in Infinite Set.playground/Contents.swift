@@ -36,17 +36,26 @@ import UIKit
 //At most 1000 calls will be made in total to popSmallest and addBack.
 
 class SmallestInfiniteSet {
+    var infiniteSet: Set<Int> = []
+    var current = 1
 
     init() {
         
     }
     
     func popSmallest() -> Int {
-        
+        if let smallest = infiniteSet.min() {
+            return infiniteSet.remove(smallest)!
+        } else {
+            defer { current += 1 }
+            return current
+        }
     }
     
     func addBack(_ num: Int) {
-        
+        if num < current && !infiniteSet.contains(num) {
+            infiniteSet.insert(num)
+        }
     }
 }
 
