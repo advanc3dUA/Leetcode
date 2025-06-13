@@ -30,8 +30,67 @@ import UIKit
 //Explanation:
 //Choosing index 2 is optimal: nums1[2] * nums2[2] = 3 * 10 = 30 is the maximum possible score.
 
+//class Solution {
+//    func maxScore(_ nums1: [Int], _ nums2: [Int], _ k: Int) -> Int {
+//        var result = 0
+//        let combined = [(Int, Int)](zip(nums2, nums1)).sorted(by: { $0.0 > $1.0 })
+//        var maxKs = [Int]()
+//        for pair in combined {
+//            if maxKs.count < k {
+//                maxKs.append(pair.1)
+//            } else {
+//                guard let minValue = maxKs.min() else { continue }
+//                if pair.1 >= minValue {
+//                    let indexToRemove = maxKs.firstIndex(of: minValue)!
+//                    maxKs.remove(at: indexToRemove)
+//                    maxKs.append(pair.1)
+//                }
+//            }
+//            if maxKs.count == k {
+//                let sum = maxKs.reduce(0, +)
+//                let currentMax = sum * pair.0
+//                result = max(result, currentMax)
+//            }
+//        }
+//        return result
+//    }
+//}
+
 class Solution {
     func maxScore(_ nums1: [Int], _ nums2: [Int], _ k: Int) -> Int {
+        let n = nums1.count
+        var result = 0
+        let pairs = zip(nums2, nums1).sorted { $0.0 > $1.0 }
         
+        var selected = [Int]()
+        var sum = 0
+        
+        for (minMultiplier, value) in pairs {
+            var left = 0, right = selected.count
+            while left < right {
+                let mid = (left + right) / 2
+                if selected[mid] < value {
+                    left = mid + 1
+                } else {
+                    right = mid
+                }
+            }
+            selected.insert(value, at: left)
+            sum += value
+
+            if selected.count > k {
+                sum -= selected.removeFirst()
+            }
+            
+            if selected.count == k {
+                result = max(result, sum * minMultiplier)
+            }
+        }
+        
+        return result
     }
 }
+
+let solution = Solution()
+print(solution.maxScore([1,3,3,2], [2,1,3,4], 3))
+print(solution.maxScore([4,2,3,1,1], [7,5,10,9,6], 1)) 
