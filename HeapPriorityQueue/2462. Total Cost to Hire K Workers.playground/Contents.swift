@@ -42,6 +42,26 @@ import UIKit
 
 class Solution {
     func totalCost(_ costs: [Int], _ k: Int, _ candidates: Int) -> Int {
+        var totalCost = 0
+        var costs = costs
         
+        for _ in 0..<k {
+            let costsPrefix = costs.prefix(candidates)
+            let minCostPrefix = costsPrefix.min()!
+            let costsSuffix = costs.suffix(candidates)
+            let minCostSuffix = costsSuffix.min()!
+            
+            if minCostPrefix < minCostSuffix {
+                totalCost += minCostPrefix
+                let index = costs.firstIndex(of: minCostPrefix)!
+                costs.remove(at: index)
+            } else {
+                totalCost += minCostSuffix
+                let index = costs.lastIndex(of: minCostSuffix)!
+                costs.remove(at: index)
+            }
+        }
+        
+        return totalCost
     }
 }
