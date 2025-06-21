@@ -27,3 +27,31 @@ import UIKit
 //
 //Input: n = 2, pick = 1
 //Output: 1
+
+/**
+ * Forward declaration of guess API.
+ * @param  num -> your guess number
+ * @return          -1 if num is higher than the picked number
+ *                  1 if num is lower than the picked number
+ *               otherwise return 0
+ * func guess(_ num: Int) -> Int
+ */
+
+class Solution {
+    func guessNumber(_ n: Int) -> Int {
+        var low = 1
+        var high = n
+        
+        while low <= high {
+            let mid = (low + high) / 2
+            let pick = guess(mid)
+            switch pick {
+            case 0: return mid
+            case -1: high = mid - 1
+            case 1: low = mid + 1
+            default: break
+            }
+        }
+        return low
+    }
+}
