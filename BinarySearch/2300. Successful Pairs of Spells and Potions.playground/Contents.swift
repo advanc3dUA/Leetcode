@@ -27,8 +27,44 @@ import UIKit
 //- 2nd spell: 2 * [8,5,8] = [16,10,16]. 2 pairs are successful.
 //Thus, [2,0,2] is returned.
 
+//class Solution {
+//    func successfulPairs(_ spells: [Int], _ potions: [Int], _ success: Int) -> [Int] {
+//        var result = Array(repeating: 0, count: spells.count)
+//        
+//        for i in 0..<spells.count {
+//            potions.forEach { potion in
+//                result[i] += (spells[i] * potion) >= success ? 1 : 0
+//            }
+//        }
+//        return result
+//    }
+//}
+
 class Solution {
     func successfulPairs(_ spells: [Int], _ potions: [Int], _ success: Int) -> [Int] {
-        
+        var result = Array(repeating: 0, count: spells.count)
+        let sortedPotions = potions.sorted()
+        let max = sortedPotions.count
+        for i in 0..<spells.count {
+            let need = (success + spells[i] - 1) / spells[i]
+            
+            var low = 0
+            var high = max
+            
+            while low < high {
+                let mid = (low + high) / 2
+                if sortedPotions[mid] >= need {
+                    high = mid
+                } else {
+                    low = mid + 1
+                }
+            }
+            result[i] = max - low
+        }
+        return result
     }
 }
+
+let solution = Solution()
+print(solution.successfulPairs([5,1,3], [1,2,3,4,5], 7))
+
