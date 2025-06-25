@@ -8,7 +8,7 @@ import UIKit
 //
 //You must write an algorithm that runs in O(log n) time.
 //
-// 
+//
 //
 //Example 1:
 //
@@ -21,8 +21,41 @@ import UIKit
 //Output: 5
 //Explanation: Your function can return either index number 1 where the peak element is 2, or index number 5 where the peak element is 6.
 
+//class Solution {
+//    func findPeakElement(_ nums: [Int]) -> Int {
+//        let count = nums.count
+//        guard count > 1 else { return 0 }
+//        
+//        for i in 0..<count {
+//            if i == 0 && nums[i] >= nums[i + 1] {
+//                return i
+//            } else if i == count - 1 && nums[i] >= nums[i - 1] {
+//                return i
+//            } else if i != 0 && i != count - 1 && i < count && nums[i] > nums[i - 1] && nums[i] > nums[i + 1] {
+//                return i
+//            }
+//        }
+//        return 0
+//    }
+//}
+
 class Solution {
     func findPeakElement(_ nums: [Int]) -> Int {
+        let count = nums.count
+        guard count > 1 else { return 0 }
         
+        for i in 0..<count {
+            if (i == 0 && nums[i] >= nums[i + 1]) ||
+                (i == count - 1 && nums[i] >= nums[i - 1]) ||
+                (i != 0 && i != count - 1 && i < count && nums[i] > nums[i - 1] && nums[i] > nums[i + 1]) {
+                return i
+            }
+        }
+        return 0
     }
 }
+
+let solution = Solution()
+//print(solution.findPeakElement([1]))
+print(solution.findPeakElement([1,2,3,1]))
+//print(solution.findPeakElement([1,2,1,3,5,6,4]))
