@@ -23,3 +23,33 @@ import UIKit
 //Input: piles = [30,11,23,4,20], h = 6
 //Output: 23
 
+class Solution {
+    func minEatingSpeed(_ piles: [Int], _ h: Int) -> Int {
+        let sortedPiles = piles.sorted()
+        
+        var low = 1
+        var high = sortedPiles.last!
+        
+        while low < high {
+            let speed = (low + high) / 2
+
+            var time = 0
+            for pile in sortedPiles {
+                time += (pile + speed - 1) / speed
+                if time > h { break }
+            }
+            
+            if time <= h {
+                high = speed
+            } else if time > h {
+                low = speed + 1
+            }
+        }
+        return low
+    }
+}
+
+let solution = Solution()
+print(solution.minEatingSpeed([3, 6, 7, 11], 8))
+//print(solution.minEatingSpeed([30,11,23,4,20], 5))
+print(solution.minEatingSpeed([312884470], 312884469))
