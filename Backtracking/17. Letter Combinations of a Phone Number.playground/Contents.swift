@@ -48,9 +48,7 @@ class Solution {
             for letter in letters {
                 path.append(letter)
                 dfs(index + 1)
-                print(path)
                 path.removeLast()
-                print(path)
             }
         }
         

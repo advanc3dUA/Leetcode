@@ -6,7 +6,7 @@ import UIKit
 //Each number is used at most once.
 //Return a list of all possible valid combinations. The list must not contain the same combination twice, and the combinations may be returned in any order.
 //
-// 
+//
 //
 //Example 1:
 //
@@ -33,6 +33,30 @@ import UIKit
 
 class Solution {
     func combinationSum3(_ k: Int, _ n: Int) -> [[Int]] {
+        var result: [[Int]] = []
+        var path = [Int]()
         
+        func dfs(_ start: Int, _ sum: Int) {
+            if path.count == k {
+                if sum == n {
+                    result.append(path)
+                }
+                return
+            }
+            for x in start...9 {
+                let newSum = sum + x
+                if newSum > n {
+                    break
+                }
+                path.append(x)
+                dfs(x + 1, newSum)
+                path.removeLast()
+            }
+        }
+        dfs(1, 0)
+        return result
     }
 }
+
+let solution = Solution()
+print(solution.combinationSum3(3, 7))
