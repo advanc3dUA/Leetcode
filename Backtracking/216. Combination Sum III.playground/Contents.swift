@@ -43,6 +43,9 @@ class Solution {
                 }
                 return
             }
+            
+            if start > 9 { return }
+            
             for x in start...9 {
                 let newSum = sum + x
                 if newSum > n {
@@ -59,4 +62,4 @@ class Solution {
 }
 
 let solution = Solution()
-print(solution.combinationSum3(3, 7))
+print(solution.combinationSum3(9, 45))
